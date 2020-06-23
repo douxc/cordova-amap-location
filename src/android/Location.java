@@ -99,7 +99,7 @@ private Notification buildNotification() {
              keepLocationInstance.onDestroy();
              keepLocationInstance = null;
             }
-            locationClient.enableBackgroundLocation(2001,buildNotification())
+            locationClient.enableBackgroundLocation(2001,buildNotification());
             
             int interval = args.optInt(0, 10000); //获取定位间隔参数，缺省10秒钟定位一次
             
