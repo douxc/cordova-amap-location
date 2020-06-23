@@ -18,51 +18,28 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationClientOption.AMapLocationMode;
 import com.amap.api.location.AMapLocationListener;
 
+import android.content.Intent;
+import android.app.PendingIntent;
+import android.app.Notification;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
 public class Location extends CordovaPlugin implements AMapLocationListener{
-    private static final String NOTIFICATION_CHANNEL_NAME = "BackgroundLocation";
-private NotificationManager notificationManager = null;
-boolean isCreateChannel = false;
-@SuppressLint("NewApi")
-private Notification buildNotification() {
 
-	Notification.Builder builder = null;
-	Notification notification = null;
-	if(android.os.Build.VERSION.SDK_INT >= 26) {
-		//Android O上对Notification进行了修改，如果设置的targetSDKVersion>=26建议使用此种方式创建通知栏
-		if (null == notificationManager) {
-			notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		}
-		String channelId = getPackageName();
-		if(!isCreateChannel) {
-			NotificationChannel notificationChannel = new NotificationChannel(channelId,
-					NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-			notificationChannel.enableLights(true);//是否在桌面icon右上角展示小圆点
-			notificationChannel.setLightColor(Color.BLUE); //小圆点颜色
-			notificationChannel.setShowBadge(true); //是否在久按桌面图标时显示此渠道的通知
-			notificationManager.createNotificationChannel(notificationChannel);
-			isCreateChannel = true;
-		}
-		builder = new Notification.Builder(getApplicationContext(), channelId);
-	} else {
-		builder = new Notification.Builder(getApplicationContext());
-	}
-	builder.setSmallIcon(R.drawable.ic_launcher)
-			.setContentTitle(Utils.getAppName(this))
-			.setContentText("正在后台运行")
-			.setWhen(System.currentTimeMillis());
-
-	if (android.os.Build.VERSION.SDK_INT >= 16) {
-		notification = builder.build();
-	} else {
-		return builder.getNotification();
-	}
-	return notification;
-}
-
+     //显示通知栏
+    public void showNotify(){
+        Notification.Builder builder = new Notification.Builder(getApplicationContext());
+        Intent nfIntent = new Intent(this, MainActivity.class);
+        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
+                .setContentTitle("正在后台定位")
+                .setContentText("定位进行中")
+                .setWhen(System.currentTimeMillis());
+        Notification notification = builder.build();
+        notification.defaults = Notification.DEFAULT_SOUND;
+        //调用这个方法把服务设置成前台服务
+        startForeground(110, notification);
+    }
 
     
     String TAG = "GeolocationPlugin";
