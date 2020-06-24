@@ -26,7 +26,7 @@ import android.util.Log;
 public class Location extends CordovaPlugin implements AMapLocationListener{
 
      //显示通知栏
-    public void showNotify(){
+    public Notification showNotify(){
         Notification.Builder builder = new Notification.Builder(this.cordova.getActivity().getApplicationContext());
         
         builder.setContentTitle("正在后台定位")
@@ -34,8 +34,7 @@ public class Location extends CordovaPlugin implements AMapLocationListener{
                 .setWhen(System.currentTimeMillis());
         Notification notification = builder.build();
         notification.defaults = Notification.DEFAULT_SOUND;
-        //调用这个方法把服务设置成前台服务
-        startForeground(110, notification);
+        return notification;
     }
 
     
