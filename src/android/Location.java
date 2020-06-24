@@ -18,25 +18,11 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationClientOption.AMapLocationMode;
 import com.amap.api.location.AMapLocationListener;
 
-import android.app.Notification;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
 public class Location extends CordovaPlugin implements AMapLocationListener{
-
-     //显示通知栏
-    public Notification showNotify(){
-        Notification.Builder builder = new Notification.Builder(this.cordova.getActivity().getApplicationContext());
-        
-        builder.setContentTitle("正在后台定位")
-                .setContentText("定位进行中")
-                .setWhen(System.currentTimeMillis());
-        Notification notification = builder.build();
-        notification.defaults = Notification.DEFAULT_SOUND;
-        return notification;
-    }
-
     
     String TAG = "GeolocationPlugin";
     String [] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
@@ -72,7 +58,6 @@ public class Location extends CordovaPlugin implements AMapLocationListener{
              keepLocationInstance.onDestroy();
              keepLocationInstance = null;
             }
-            locationClient.enableBackgroundLocation(2001,showNotify());
             
             int interval = args.optInt(0, 10000); //获取定位间隔参数，缺省10秒钟定位一次
             
@@ -99,7 +84,6 @@ public class Location extends CordovaPlugin implements AMapLocationListener{
                 keepLocationInstance.onDestroy();
                 keepLocationInstance = null;
             }
-            locationClient.disableBackgroundLocation(true);
             callback.success();
             return true;
         } else {
@@ -195,5 +179,4 @@ public class Location extends CordovaPlugin implements AMapLocationListener{
     {
         PermissionHelper.requestPermissions(this, requestCode, permissions);
     }
-
 }
