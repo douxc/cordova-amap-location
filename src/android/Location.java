@@ -18,8 +18,6 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationClientOption.AMapLocationMode;
 import com.amap.api.location.AMapLocationListener;
 
-import android.content.Intent;
-import android.app.PendingIntent;
 import android.app.Notification;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -29,9 +27,9 @@ public class Location extends CordovaPlugin implements AMapLocationListener{
 
      //显示通知栏
     public void showNotify(){
-        Notification.Builder builder = new Notification.Builder(getApplicationContext());
-        Intent nfIntent = new Intent(this, MainActivity.class);
-        builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
+        Notification.Builder builder = new Notification.Builder(this.cordova.getActivity().getApplicationContext());
+        
+        builder.setContentIntent(this.cordova.getActivity())
                 .setContentTitle("正在后台定位")
                 .setContentText("定位进行中")
                 .setWhen(System.currentTimeMillis());
@@ -76,7 +74,7 @@ public class Location extends CordovaPlugin implements AMapLocationListener{
              keepLocationInstance.onDestroy();
              keepLocationInstance = null;
             }
-            locationClient.enableBackgroundLocation(2001,buildNotification());
+            locationClient.enableBackgroundLocation(2001,showNotify());
             
             int interval = args.optInt(0, 10000); //获取定位间隔参数，缺省10秒钟定位一次
             
