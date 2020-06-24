@@ -57,7 +57,8 @@
         <!--定位服务-->
         <service android:name="com.amap.api.location.APSService"/>
         <!-- 启动一个前台服务-->
-        <service android:name="com.amap.androidobackgroundlocation.LocationForegoundService"/><meta-data android:name="com.amap.api.v2.apikey" android:value="$ANDROID_KEY"></meta-data> 
+        <service android:name="com.amap.androidobackgroundlocation.LocationForegoundService"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="$ANDROID_KEY"></meta-data> 
         </config-file>
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="AMapLocation" >

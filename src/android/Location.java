@@ -29,8 +29,7 @@ public class Location extends CordovaPlugin implements AMapLocationListener{
     public void showNotify(){
         Notification.Builder builder = new Notification.Builder(this.cordova.getActivity().getApplicationContext());
         
-        builder.setContentIntent(this.cordova.getActivity())
-                .setContentTitle("正在后台定位")
+        builder.setContentTitle("正在后台定位")
                 .setContentText("定位进行中")
                 .setWhen(System.currentTimeMillis());
         Notification notification = builder.build();
